@@ -1,7 +1,7 @@
 package com.updown.api.account.presentation.mapstruct.mapper;
 
 
-import com.updown.api.account.domain.AccountEntity;
+import com.updown.api.account.domain.Account;
 import com.updown.api.account.presentation.dto.response.AccountFindResponseDTO;
 import com.updown.api.account.presentation.dto.response.AccountSaveResponseDTO;
 import com.updown.api.account.presentation.dto.response.AccountUpdateResponseDTO;
@@ -13,8 +13,8 @@ public interface AccountEntityMapper {
 
     AccountEntityMapper INSTANCE = Mappers.getMapper(AccountEntityMapper.class);
 
-    AccountSaveResponseDTO accountEntityToAccountSaveResponseDTO(AccountEntity accountEntity);
-    AccountFindResponseDTO accountEntityToAccountFindResponseDTO(AccountEntity accountEntity);
-    AccountUpdateResponseDTO accountEntityToAccountUpdateResponseDTO(AccountEntity accountEntity);
+    AccountSaveResponseDTO accountEntityToAccountSaveResponseDTO(Account account);
+    AccountFindResponseDTO accountEntityToAccountFindResponseDTO(Account account);
+    AccountUpdateResponseDTO accountEntityToAccountUpdateResponseDTO(Account account);
 
 }

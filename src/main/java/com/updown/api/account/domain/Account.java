@@ -18,7 +18,7 @@ import javax.persistence.*;
 // @DynamicInsert, @DynamicUpdate 를 사용하게 되면 불필요한 DB 부하를 줄일 수 있고, default 값 대신에 null 값이 들어갈 일은 없을 것이다.
 @NoArgsConstructor
 @Table(name = "account")
-public class AccountEntity extends BaseTimeEntity {
+public class Account extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +32,15 @@ public class AccountEntity extends BaseTimeEntity {
     private String password;
 
     private String accountName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn: 조인 컬럼은 외래 키를 매핑할 때 사용한다.
+    // name 속성에는 매핑할 외래 키 이름을 지정한다.
+    // 계정과 권한 테이블은 ROLE_ID 외래 키로 연관관계를 맺으므로 이 값을 지정하면 된다. 이 어노테이션은 생략할 수 있다.
+    // @JoinColumn 어노테이션을 생략하면 아래와 같은 전략에 따라 외래 키를 매핑합니다.
+    //  필드명 +  “_” + 참조하는 테이블의 기본 키(@Id) 컬럼명
+//    @JoinColumn(name = "role_id")
+    private Role role;
 
     // 낙관적 잠금(Optimisstic Lock)은 현실적으로 데이터 갱신시 경합이 발생하지 않을 것이라고 낙관적으로 보고 잠금을 거는 기법입니다.
     // 예를 들어 회원정보에 대한 갱신은 보통 해당 회원에 의해서 이루어지므로 동시에 여러 요청이 발생할 가능성이 낮습니다.
@@ -51,26 +60,29 @@ public class AccountEntity extends BaseTimeEntity {
     private Long version;
 
     @Builder
-    public AccountEntity(String loginId, String password, String accountName) {
+    public Account(String loginId, String password, String accountName, Role role) {
         this.loginId = loginId;
         this.password = password;
         this.accountName = accountName;
+        this.role = role;
     }
 
-    public static AccountEntity create(AccountSaveRequestDTO accountSaveRequestDTO) {
+    public static Account create(AccountSaveRequestDTO accountSaveRequestDTO, Role role) {
         // 해시 함수에는 MD5나 SHA 등의 종류가 있지만 BCrypt는 단순히 입력을 1회 해시시키는 것이 아니라 솔트(salt)를 부여하여 여러번 해싱하므로 더 안전하게 암호를 관리할 수 있다.
         // 그리고 스프링 시큐리티에서 기본으로 BCrypt 써서 이걸로 넣음
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        return AccountEntity.builder().
+        return Account.builder().
                 loginId(accountSaveRequestDTO.getLoginId()).
                 accountName(accountSaveRequestDTO.getAccountName()).
                 password(passwordEncoder.encode(accountSaveRequestDTO.getPassword())).
+                role(Role.createDefaultRole()).
                 build();
     }
 
     public void update(AccountUpdateRequestDTO accountUpdateRequestDTO) {
         this.accountName = accountUpdateRequestDTO.getChangeAccountName();
     }
+
 
 }

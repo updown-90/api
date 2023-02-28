@@ -1,17 +1,17 @@
 package com.updown.api.account.service;
 
-import com.updown.api.account.domain.AccountEntity;
+import com.updown.api.account.domain.Account;
+import com.updown.api.account.domain.Role;
 import com.updown.api.account.infrastructure.dto.AccountEntityQueryDSLDTO;
 import com.updown.api.account.infrastructure.repository.AccountEntityRepository;
+import com.updown.api.account.infrastructure.repository.RoleEntityRepository;
 import com.updown.api.account.presentation.dto.request.AccountSaveRequestDTO;
 import com.updown.api.account.presentation.dto.request.AccountUpdateRequestDTO;
 import com.updown.api.account.presentation.dto.request.AccountsFindRequestDTO;
 import com.updown.api.common.exception.CustomRuntimeException;
 import com.updown.api.common.exception.ExceptionType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
@@ -20,13 +20,16 @@ import java.util.List;
 public class AccountService {
 
     private final AccountEntityRepository accountEntityRepository;
+    private final RoleEntityRepository roleEntityRepository;
 
-    public AccountEntity createAccount(AccountSaveRequestDTO accountSaveRequestDTO) {
+    public Account createAccount(AccountSaveRequestDTO accountSaveRequestDTO) {
+        Role role = roleEntityRepository.findByRoleType(Role.DEFAULT_ROLE_TYPE);
+
         return isEmptyDBLoginId(accountSaveRequestDTO) ?
-                accountEntityRepository.save(AccountEntity.create(accountSaveRequestDTO)) : null;
+                accountEntityRepository.save(Account.create(accountSaveRequestDTO, role)) : null;
     }
 
-    public AccountEntity findAccountById(Long id) {
+    public Account findAccountById(Long id) {
         return accountEntityRepository.findAccountById(id)
                 .orElseThrow(() -> new CustomRuntimeException(ExceptionType.NOT_FOUND_USER));
     }
@@ -35,12 +38,12 @@ public class AccountService {
         return accountEntityRepository.findAccounts(accountsFindRequestDTO);
     }
 
-    public AccountEntity updateAccount(AccountUpdateRequestDTO accountUpdateRequestDTO) {
-        AccountEntity accountEntity = accountEntityRepository.findById(accountUpdateRequestDTO.getId())
+    public Account updateAccount(AccountUpdateRequestDTO accountUpdateRequestDTO) {
+        Account account = accountEntityRepository.findById(accountUpdateRequestDTO.getId())
                 .orElseThrow(() -> new CustomRuntimeException(ExceptionType.NOT_FOUND_USER));
 
-        accountEntity.update(accountUpdateRequestDTO);
-        return accountEntityRepository.save(accountEntity);
+        account.update(accountUpdateRequestDTO);
+        return accountEntityRepository.save(account);
     }
 
     public void deleteAccount(Long id) {
@@ -54,5 +57,9 @@ public class AccountService {
                 });
 
         return true;
+    }
+
+    public Account creatAccont() {
+        return null;
     }
 }

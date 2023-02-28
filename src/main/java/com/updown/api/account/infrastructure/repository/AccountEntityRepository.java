@@ -1,13 +1,13 @@
 package com.updown.api.account.infrastructure.repository;
 
-import com.updown.api.account.domain.AccountEntity;
+import com.updown.api.account.domain.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface AccountEntityRepository extends JpaRepository<AccountEntity, Long>, AccountEntityQueryDSLRepository {
+public interface AccountEntityRepository extends JpaRepository<Account, Long>, AccountEntityQueryDSLRepository {
 
-    Optional<AccountEntity> findAccountById(Long id);
+    Optional<Account> findAccountById(Long id);
 
     //  비관적 락(Pessimistic Lock)
     //  동일한 데이터를 동시에 수정할 가능성이 높다는 비관적인 전제로 잠금을 거는 방식입니다.
@@ -20,5 +20,5 @@ public interface AccountEntityRepository extends JpaRepository<AccountEntity, Lo
     //  좀 더 딱딱한 표현으로는 동시성 제어를 위하여 특정 데이터(ROW)에 대해 베타적 LOCK을 거는 기능입니다.
 
     //  @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    Optional<AccountEntity> findAccountByLoginId(String loginId);
+    Optional<Account> findAccountByLoginId(String loginId);
 }

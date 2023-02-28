@@ -1,7 +1,8 @@
 package com.updown.api.common.security;
 
-import com.updown.api.account.domain.AccountEntity;
+import com.updown.api.account.domain.Account;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
@@ -12,17 +13,13 @@ import java.util.List;
 // UserDetails Interface 를 직접 구현하거나 User Class를 확장해서 사용하면 된다.
 public class SpringSecurityUserDetailsImpl extends User {
 
-    public SpringSecurityUserDetailsImpl(AccountEntity accountEntity) {
-        super(accountEntity.getLoginId(), accountEntity.getPassword(), authorities(accountEntity));
+    public SpringSecurityUserDetailsImpl(Account account) {
+        super(account.getLoginId(), account.getPassword(), authorities(account));
     }
 
-    private static Collection<? extends GrantedAuthority> authorities(AccountEntity accountEntity) {
+    private static Collection<? extends GrantedAuthority> authorities(Account account) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-//        if (accountEntity.isAdmin()) {
-//            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//        } else {
-//            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-//        }
+        authorities.add(new SimpleGrantedAuthority(account.getRole().getRoleType()));
         return authorities;
     }
 

@@ -8,7 +8,7 @@ import com.updown.api.account.presentation.dto.request.AccountsFindRequestDTO;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.updown.api.account.domain.QAccountEntity.accountEntity;
+import static com.updown.api.account.domain.QAccount.account;
 
 
 public class AccountEntityQueryDSLRepositoryImpl implements AccountEntityQueryDSLRepository{
@@ -22,9 +22,9 @@ public class AccountEntityQueryDSLRepositoryImpl implements AccountEntityQueryDS
     @Override
     public List<AccountEntityQueryDSLDTO> findAccounts(AccountsFindRequestDTO accountsFindRequestDTO) {
         return queryFactory.select(new QAccountEntityQueryDSLDTO(
-                accountEntity.loginId,
-                accountEntity.accountName)
-        ).from(accountEntity)
+                account.loginId,
+                account.accountName)
+        ).from(account)
         .fetch();
     }
 }
