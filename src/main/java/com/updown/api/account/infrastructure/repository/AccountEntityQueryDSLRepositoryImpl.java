@@ -2,7 +2,7 @@ package com.updown.api.account.infrastructure.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.updown.api.account.infrastructure.dto.AccountEntityQueryDSLResponse;
-import com.updown.api.account.infrastructure.dto.QAccountEntityQueryDSLDTO;
+import com.updown.api.account.infrastructure.dto.QAccountEntityQueryDSLResponse;
 import com.updown.api.account.presentation.dto.request.AccountsFindRequest;
 
 import javax.persistence.EntityManager;
@@ -21,7 +21,7 @@ public class AccountEntityQueryDSLRepositoryImpl implements AccountEntityQueryDS
 
     @Override
     public List<AccountEntityQueryDSLResponse> findAccounts(AccountsFindRequest accountsFindRequest) {
-        return queryFactory.select(new QAccountEntityQueryDSLDTO(
+        return queryFactory.select(new QAccountEntityQueryDSLResponse(
                 accountEntity.loginId,
                 accountEntity.accountName)
         ).from(accountEntity)

@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class AccountEntityQueryDSLResponse {
+
     private String loginId;
 
     private String accountName;

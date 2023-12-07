@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .and()
                 // 조건별로 요청 허용/제한 설정
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/account").permitAll() // 해당 패턴에 해당하는 것은 인증 허용
+                .antMatchers( "/account").permitAll() // 해당 패턴에 해당하는 것은 인증 허용
                 .antMatchers(HttpMethod.POST, "/department").permitAll() // 해당 패턴에 해당하는 것은 인증 허용
                 .antMatchers("/login").permitAll() // 해당 패턴에 해당하는 것은 인증 허용
                 .antMatchers("/", "/h2-console/**", "/account/create").permitAll() // 해당 패턴에 해당하는 것은 인증 허용

@@ -25,7 +25,7 @@ public class AccountService {
     private final PasswordEncoder passwordEncoder;
 
     public AccountEntity createAccount(AccountSaveRequest accountSaveRequest) {
-        var departmentEntity = departmentRepository.findById(accountSaveRequest.getDepartmentId()).get();
+        var departmentEntity = departmentRepository.findById(accountSaveRequest.departmentId()).get();
 
 
         var entity = AccountEntity.create(accountSaveRequest, departmentEntity);
@@ -55,7 +55,7 @@ public class AccountService {
     }
 
     public AccountEntity updateAccount(AccountUpdateRequest accountUpdateRequest) {
-        var accountEntity = accountEntityRepository.findById(accountUpdateRequest.getId())
+        var accountEntity = accountEntityRepository.findById(accountUpdateRequest.id())
                 .orElseThrow(() -> new CustomRuntimeException(ExceptionType.NOT_FOUND_USER));
 
         accountEntity.update(accountUpdateRequest);
@@ -67,7 +67,7 @@ public class AccountService {
     }
 
     private boolean isEmptyDBLoginId(AccountSaveRequest accountSaveRequest) {
-        accountEntityRepository.findAccountByLoginId(accountSaveRequest.getLoginId())
+        accountEntityRepository.findAccountByLoginId(accountSaveRequest.loginId())
                 .ifPresent(accountEntity -> {   // ifPresent()는 Optional 객체가 값을 가지고 있으면 실행 값이 없으면 넘어감
                     throw new CustomRuntimeException(ExceptionType.NOT_FOUND_USER);
                 });

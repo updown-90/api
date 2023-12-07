@@ -3,8 +3,8 @@ POST localhost:8080/account
 Content-Type: application/json
 
 {
-  "loginId" : "testLoginId1",
-  "password" : "testPassword1",
+  "loginId" : "testLoginId2",
+  "password" : "testPassword2",
   "accountName" : "testAccountName1",
   "departmentId" : 1
 }

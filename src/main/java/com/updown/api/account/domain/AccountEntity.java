@@ -67,16 +67,16 @@ public class AccountEntity extends BaseTimeEntity {
 
     public static AccountEntity create(AccountSaveRequest accountSaveRequest, DepartmentEntity departmentEntity) {
         return AccountEntity.builder().
-                loginId(accountSaveRequest.getLoginId()).
-                accountName(accountSaveRequest.getAccountName()).
-                password(accountSaveRequest.getPassword()).
+                loginId(accountSaveRequest.loginId()).
+                accountName(accountSaveRequest.accountName()).
+                password(accountSaveRequest.password()).
                 accountStatus(AccountStatus.NORMAL).
                 departmentEntity(departmentEntity).
                 build();
     }
 
     public void update(AccountUpdateRequest accountUpdateRequest) {
-        this.accountName = accountUpdateRequest.getChangeAccountName();
+        this.accountName = accountUpdateRequest.changeAccountName();
     }
 
     public void encodePassWord(PasswordEncoder passwordEncoder) {
