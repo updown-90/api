@@ -1,6 +1,7 @@
 buildscript {
     ext {
         queryDslVersion = "5.0.0"
+		reslience4jVersion = "2.0.2"
     }
 }
 
@@ -41,6 +42,13 @@ dependencies {
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+
+	/**
+	 * Resilience4j는 시스템 장애에 대응하기 위한 오류 처리와 장애 복구 패턴을 Java에서 구현한 라이브러리입니다.
+	 * 이 라이브러리는 마이크로서비스 아키텍처에서 서비스 간의 통신이나 외부 시스템과의 통신에 있어서 발생할 수 있는 다양한 문제점을 예방하거나 빠르게 복구하도록 돕습니다.
+	 */
+	implementation "io.github.resilience4j:resilience4j-spring-boot3:$reslience4jVersion"
 
 	// jwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
