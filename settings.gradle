@@ -1,1 +1,8 @@
 rootProject.name = 'api'
+
+// 공통 모듈
+include 'common'
+
+// 도메인별 모듈 (각각 독립적으로 운영)
+include 'account'
+include 'department'
